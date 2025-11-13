@@ -11,3 +11,6 @@ class BasePage:
     def get_title(self) -> str:
         """Get page title"""
         return self.page.title()
+    
+    def pauseThePage(self, page: Page):
+        page.pause()

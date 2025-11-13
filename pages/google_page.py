@@ -19,3 +19,9 @@ class GooglePage(BasePage):
     def get_title(self) -> str:
         # demonstrate calling the inherited method
         return super().get_title()
+    
+    def goToAboutPage(self):
+        self.page.get_by_role("link", name="About", exact=True).click()
+    
+    def googleLogo(self) -> bool:
+        return self.page.get_by_role("link", name="Google logo", exact=True).is_visible()
