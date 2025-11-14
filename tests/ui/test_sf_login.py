@@ -9,5 +9,8 @@ class TestSFLogin():
         sf_loginpage.enterUsername()
         sf_loginpage.enterPassword()
         sf_loginpage.clickLogin()
-        time.sleep(1)
-        sf_loginpage.fillSearchSetup()
+        if(sf_loginpage.isVerificationCodeVisible()):
+            sf_loginpage.enterVerificationCode()
+            sf_loginpage.clickVerify()
+        sf_loginpage.pauseThePage(page) #CSLX34AL2Z
+       # sf_loginpage.fillSearchSetup()
