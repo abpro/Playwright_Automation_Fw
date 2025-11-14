@@ -1,18 +1,27 @@
 from playwright.sync_api import Page
-from locators.google_home_page_locators import GoogleHomePageLocators
+from core.base_page import BasePage
 
-class GooglePage:
+class GooglePage(BasePage):
 
-    def __init__(self,page : Page):
-        self.page = page
-        self.locators = GoogleHomePageLocators()
+    def __init__(self, page: Page):
+        super().__init__(page)
 
-    def navigate(self):
-        self.page.goto("https://www.google.com")
+    def open(self):
+        # reuse BasePage.navigate
+        self.navigate("https://www.google.com")
+
+    def search(self, query: str):
+        self.search_input.fill(query)
+        # pressing Enter is more reliable than clicking the hidden button
+        self.search_input.press("Enter")
+        self.page.wait_for_load_state("networkidle")
+
+    def get_title(self) -> str:
+        # demonstrate calling the inherited method
+        return super().get_title()
     
-    def get_page_title(self) -> str:
-        return self.page.title()
+    def goToAboutPage(self):
+        self.page.get_by_role("link", name="About", exact=True).click()
     
-    def verify_google_text_present(self) -> bool:
-        content = self.page.content()
-        return "Google" in content
+    def googleLogo(self) -> bool:
+        return self.page.get_by_role("link", name="Google logo", exact=True).is_visible()
